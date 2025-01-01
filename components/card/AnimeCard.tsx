@@ -5,7 +5,7 @@ import FavoriteToggleButton from "./FavoriteToggleButton";
 import { fetchAnimeDetail } from "@/actions/actions";
 
 const AnimeCard = async({ anime }: { anime: AnimeCardProps }) => {
-  const { id } = anime;
+  const { id } = await anime;
   const animedetail = await fetchAnimeDetail({ id });
   // console.log("Anime Details:", animedetail);
   return (

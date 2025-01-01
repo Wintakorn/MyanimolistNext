@@ -21,7 +21,7 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
   return (
     <section>
       <Breadcrums name={anime.title} />
-      <header className="flex justify-between mt-4 items-center">
+      <header className="flex justify-between mt-4 items-center border py-3">
         <div className="flex items-center">
           <h1 className="text-4xl font-bold">{anime.title}</h1>
           <p className="text-3xl font-bold ml-3">
@@ -29,28 +29,28 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
           </p>
         </div>
       </header>
-      <nav className="py-3">
-        <Link href={`/anime/`} className="hover:underline">Anime</Link>
-        <span className="mx-2">/</span>
-        <Link href={`/anime/${id}/characters`} className="hover:underline">Characters</Link>
-        <span className="mx-2">/</span>
-        <Link href={`/anime/${id}/reviews`} className="hover:underline">Reviews</Link>
-        <span className="mx-2">/</span>
-        <Link href={`/anime/${id}/reviews`} className="hover:underline">Community</Link>
-      </nav>
-
-      <div className="flex mt-2">
+      <div className="flex">
         <div className="w-1/3 border">
           <ImageContainer mainImage={anime.image || "/placeholder.jpg"} name={anime.title} />
           <AnimeInfo id={id} />
         </div>
         <div className="w-2/3 px-4 flex flex-col border">
-          <h2 className="text-2xl font-semibold">Description</h2>
+          
+            <nav className="py-2 border-b ">
+              <Link href={`/anime/`} className="hover:text-red-500">Anime</Link>
+              <span className="mx-2">/</span>
+              <Link href={`/anime/${id}/characters`} className="hover:text-red-500">Characters</Link>
+              <span className="mx-2">/</span>
+              <Link href={`/anime/${id}/reviews`} className="hover:text-red-500">Reviews</Link>
+              <span className="mx-2">/</span>
+              <Link href={`/anime/${id}/reviews`} className="hover:text-red-500">Community</Link>
+            </nav>
+       
           <div className="flex items-center py-5 border-b">
             <div className="text-center">
               <p className="text-lg font-semibold">SCORE</p>
               <h1 className="text-lg font-semibold">{anime.score}</h1>
-              <p>{anime.favorite} users</p>
+              <p>{anime.reviews.length} users</p>
             </div>
             <p className="text-lg font-semibold ml-10">
               Ranked: #{anime.ranked || "N/A"}
@@ -59,7 +59,7 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
               Popularity: #{anime.popularity || "N/A"}
             </p>
             <p className="text-lg font-semibold ml-10">
-              Members: {anime.favorite || "N/A"}
+              Favorite: {anime.favorite || "N/A"}
             </p>
           </div>
           <div className="py-10">
@@ -71,13 +71,16 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
             <Character id={id} />
             <div className="mt-10 mb-10">
               <div className="flex justify-between items-center border-b py-1">
-                <h2 className="text-2xl font-semibold">Reviews</h2>
+                <div className="text-2xl flex gap-3 items-center">
+                  <h2 className="font-semibold">Reviews</h2>
+                  <p>ทั้งหมด {reviews.length} รายการ</p>
+                </div>
                 <Link href={""}>
                   <h3 className="font-semibold">View all</h3>
                 </Link>
               </div>
               {reviews.length > 0 ? (
-                reviews.map((review) => (
+                reviews.slice(0, 3).map((review) => (
                   <div key={review.id} className="border-gray-500 border-b py-3 border-gray-300">
                     <div className="flex items-center mb-2">
                       <img

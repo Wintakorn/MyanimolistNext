@@ -1,4 +1,3 @@
-import UserIcon from "./UserIcon";
 import { DarkMode } from "./DarkMode";
 import DropdownListMenu from "./DropdownListMenu";
 import Logo from "./Logo";

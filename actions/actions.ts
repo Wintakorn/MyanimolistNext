@@ -61,7 +61,6 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
 
 
 
-
 // export const fetchProfileDetail = async (clerkId: string | undefined) => {
 //   try {
 //     // Validate the input
@@ -103,45 +102,41 @@ export const createAnimeAction = async (prevState: any, formData: FormData) => {
     if (!file) {
       throw new Error("Anime image is required!");
     }
-
-    // Convert multi-select fields or comma-separated inputs to arrays
     const genre = rawData.genre
       ? Array.isArray(rawData.genre)
         ? rawData.genre
-        : JSON.parse(rawData.genre) // If it's a stringified JSON array
+        : JSON.parse(rawData.genre as string)
       : [];
     const producers = rawData.producers
-      ? rawData.producers.split(",").map((p) => p.trim())
+      ? (rawData.producers as string).split(",").map((p) => p.trim())
       : [];
     const licensors = rawData.licensors
-      ? rawData.licensors.split(",").map((l) => l.trim())
+      ? (rawData.licensors as string).split(",").map((l) => l.trim())
       : [];
     const studios = rawData.studios
-      ? rawData.studios.split(",").map((s) => s.trim())
+      ? (rawData.studios as string).split(",").map((s) => s.trim())
       : [];
 
-    // Validate the image file
     const validatedFile = validateWithZod(imageSchema, { image: file });
 
-    // Validate the rest of the form data
+
     const validateField = validateWithZod(animeSchema, {
       ...rawData,
       genre,
       producers,
       licensors,
       studios,
-      releaseDate: new Date(rawData.releaseDate), // Ensure releaseDate is a valid date object
+      releaseDate: new Date(rawData.releaseDate as string),
     });
 
-    // Upload the image file
     const fullPath = await uploadFile(validatedFile.image);
 
-    // Save the anime to the database
     await db.anime.create({
       data: {
         ...validateField,
         image: fullPath,
         createdBy: user.id,
+        favorites: undefined,
       },
     });
 
@@ -259,11 +254,8 @@ export const fetchFavorites = async () => {
 export const fetchAnimeHero = async () => {
   try {
     const heroAnime = await db.anime.findMany({
-      // where: {
-      //   status: "desc",
-      // },
       orderBy: {
-        createdAt: "desc",
+        score: "desc", // Order by the score in descending order
       },
       take: 5,
     });
@@ -274,6 +266,7 @@ export const fetchAnimeHero = async () => {
     return [];
   }
 };
+
 
 
 export const fetchFavoriteId = async ({ animeId }: { animeId: string }) => {
@@ -385,7 +378,7 @@ export const toggleFavoriteAction = async (prevState: {
         },
       });
     } else {
-      
+
       await db.favorite.create({
         data: {
           animeId,
@@ -420,6 +413,7 @@ export const toggleFavoriteAction = async (prevState: {
 
 export const createReviewAction = async (prevState: any, formData: FormData) => {
   try {
+
     const user = await getAuthUser();
     if (!user || !user.id) {
       throw new Error("User is not authenticated or profile ID is missing.");
@@ -434,7 +428,7 @@ export const createReviewAction = async (prevState: any, formData: FormData) => 
     const validateField = validateWithZod(reviewSchema, rawData);
 
     const anime = await db.anime.findUnique({
-      where: { id: rawData.animeId },
+      where: { id: rawData.animeId as string },
     });
 
     if (!anime) {
@@ -453,14 +447,15 @@ export const createReviewAction = async (prevState: any, formData: FormData) => 
       data: {
         ...validateField,
         profileId: profile.id,
-        animeId: rawData.animeId,
+        animeId: rawData.animeId as string,
+
       },
     });
 
-    await updateAnimeScore(rawData.animeId);
+    await updateAnimeScore(rawData.animeId as string);
     await updateAnimeRanked();
     await updateAnimePopularity();
-    redirect(`/anime/${rawData.animeId}`);
+    redirect(`/manga/`);
   } catch (error) {
     console.error("Error creating review:", error);
     return renderError(error);
@@ -506,7 +501,7 @@ export const updateAnimeScore = async (animeId: string) => {
       data: { score: avgScore },
     });
 
-    console.log("Anime score updated:", result);
+    // console.log("Anime score updated:", result);
     return result;
   } catch (error) {
     console.error("Error updating anime score:", error);
@@ -520,8 +515,6 @@ export const updateAnimeRanked = async () => {
     const animes = await db.anime.findMany({
       orderBy: { score: "desc" }, // เรียงจากคะแนนมากไปน้อย
     });
-
-    // อัปเดตอันดับ (ranked) ให้แต่ละอนิเมะ
     for (let i = 0; i < animes.length; i++) {
       await db.anime.update({
         where: { id: animes[i].id },
@@ -536,7 +529,7 @@ export const updateAnimeRanked = async () => {
 };
 export const updateAnimePopularity = async () => {
   try {
-    // ดึงรายการอนิเมะทั้งหมดเรียงตามจำนวนสมาชิก (members)
+
     const animes = await db.anime.findMany({
       orderBy: { favorite: "desc" }, // เรียงจากจำนวนสมาชิกมากไปน้อย
     });

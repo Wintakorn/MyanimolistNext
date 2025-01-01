@@ -2,6 +2,7 @@ import React from 'react'
 import SimpleAnime from './SimpleAnime'
 import { fetchAnimeDetail } from '@/actions/actions'
 import { redirect } from "next/navigation";
+import Link from 'next/link';
 
 
 const AnimeContent = async ({ id }: { id: string }) => {
@@ -11,31 +12,54 @@ const AnimeContent = async ({ id }: { id: string }) => {
         <div className="">
             <div className="">
                 <div className="">
-                    <h1 className=''>Related Entries</h1>
-                    <div className="" style={{ borderBottom: '1px solid #e0e0e0' }}></div>
-                    <div className="flex py-2 ">
-                        <div className="flex">
-                            <div className="px-3">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhI_5tyJVut2f2z1_APncTJAF5PUeM_txGPZf9A3oQ_6X7pyGyGokkl7qayMA2wPcsdsc&usqp=CAU" alt="" />
-                            </div>
-                            <div className="">
-                                <p>A eligendi nulla, sed illo nam neque temporibus.</p>
-                            </div>
-                        </div>
-                        <div className="px-3">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhI_5tyJVut2f2z1_APncTJAF5PUeM_txGPZf9A3oQ_6X7pyGyGokkl7qayMA2wPcsdsc&usqp=CAU" alt="" />
-                        </div>
+                    <div className="flex justify-between items-center">
                         <div className="">
-                            <p>A eligendi nulla, sed illo nam neque temporibus.</p>
+                            <h1 className=''>Related Entries</h1>
+                        </div>
+                        <Link href={`/manga/createRelatedEntries/?animeId=${id}`} className="text-blue-500 hover:underline">
+                            Edit
+                        </Link>
+                    </div>
+                    <div className="" style={{ borderBottom: '1px solid #e0e0e0' }}></div>
+                    <div className="flex py-2 gap-3 border-b">
+                        {/* First Item */}
+                        <div className="flex w-2/3 items-start">
+                            <div className="w-24 h-32 flex-shrink-0">
+                                <img
+                                    src={anime.image}
+                                    alt=""
+                                    className="object-cover w-full h-full "
+                                />
+                            </div>
+                            <div className="px-2 text-sm">
+                                <p className="text-gray-500">TV</p>
+                                <p className="font-semibold break-words">Title: {anime.title}</p>
+                            </div>
+                        </div>
+
+                        {/* Second Item */}
+                        <div className="flex w-2/3 items-start">
+                            <div className="w-24 h-32 flex-shrink-0">
+                                <img
+                                    src={anime.image}
+                                    alt=""
+                                    className="object-cover w-full h-full "
+                                />
+                            </div>
+                            <div className="px-2 text-sm">
+                                <p className="text-gray-500">Manga</p>
+                                <p className="font-semibold  break-words">Title: {anime.title}</p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
                 <div className="">
                     <h1 className='text-lg'>Anime Music</h1>
                     <div className="" style={{ borderBottom: '1px solid #e0e0e0' }}></div>
                 </div>
                 <div className="text-center mt-4">
-                    <SimpleAnime id={id}/>
+                    <SimpleAnime id={id} />
                     <p>Simple</p>
                 </div>
             </div>
@@ -43,4 +67,4 @@ const AnimeContent = async ({ id }: { id: string }) => {
     )
 }
 
-export default AnimeContent
+export default AnimeContent;

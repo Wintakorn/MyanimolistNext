@@ -40,7 +40,14 @@ const AnimeInfo = async ({ id }: { id: string }) => {
                 <h3>Demographic: {anime.demographic}</h3>
                 <h3>Duration: {anime.duration}</h3>
                 <h3>Rating: {anime.rating}</h3>
-                <h3>Favorite: {anime.favorite} users</h3>
+                <h3>Favorite: {anime.favorite} users</h3>   
+            </div>
+            <div className="py-3">
+                <h1 className='text-lg border-b-2'>Statistics</h1>
+                <h3>Score: {anime.score} (score by {anime.reviews.length} users)</h3>   
+                <h3>Ranked: #{anime.ranked}</h3>   
+                <h3>Popularity: #{anime.popularity}</h3>   
+                <h3>Favorite: {anime.favorite} users</h3>   
             </div>
         </div>
     )

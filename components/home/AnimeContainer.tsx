@@ -15,6 +15,7 @@ const AnimeContainer = async ({
   search?: string;
   genre?: string;
 }) => {
+
   let anime: AnimeCardProps[] = [];
   let animeHero: AnimeCardProps[] = [];
   const user = auth();
@@ -40,7 +41,14 @@ const AnimeContainer = async ({
       {anime.length === 0 ? (
         <EmptyList heading="No results found" btnText="Clear Filters" />
       ) : (
-        <AnimeList anime={anime} />
+        <div className="">
+          <div className="py-5 text-2xl">
+            <h1>Top animo</h1>
+          </div>
+          <div className="">
+            <AnimeList anime={anime} />
+          </div>
+        </div>
       )}
     </div>
   );

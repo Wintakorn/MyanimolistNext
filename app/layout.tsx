@@ -4,13 +4,14 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Providers from "./Providers";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Mali } from 'next/font/google'
+import { Mali } from "next/font/google";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 const mali = Mali({
-  weight: '400',
-  subsets: ['latin', 'thai']
-})
-
+  weight: "400",
+  subsets: ["latin", "thai"],
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,10 +40,15 @@ export default function RootLayout({
         <body
           className={`${mali.className} antialiased`}
         >
+          <SidebarProvider>
             <Providers>
-              <Navbar />
-              <main className="container">{children}</main>
+              <AppSidebar />
+              <main className="container">
+                <Navbar />
+                {children}
+              </main>
             </Providers>
+          </SidebarProvider>
         </body>
       </html>
     </ClerkProvider>

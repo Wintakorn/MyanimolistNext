@@ -45,7 +45,7 @@ model Anime {
   duration       String?
   rating         String?
   score          Float?   @default(0)
-  ranked         String?  
+  ranked         String?
   popularity     Int?     @default(0)
   members        Int?     @default(0)
   favorite       Int      @default(0)
@@ -68,7 +68,6 @@ model Character {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-
   animeId String
   anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
 }
@@ -79,7 +78,6 @@ model Review {
   rating    Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
@@ -92,10 +90,19 @@ model Favorite {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   profileId String
-  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   animeId String
   anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
 }
+
+// model RelatedEntries {
+//   id          String   @id @default(uuid())
+//   title       String
+//   image       String
+//   animeId     String
+//   anime       Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+//   relatedTo Anime[]
+// }

@@ -1,11 +1,9 @@
 "use client";
 import { AnimeCardProps } from "@/utils/types";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import AnimeInfo from "./AnimeInfo";
 
@@ -14,7 +12,6 @@ import { useRef, useState } from "react";
 const Hero = ({ anime }: { anime: AnimeCardProps[] }) => {
   const [backgrounds, setBackgrounds] = useState<string[]>([]);
   const imageRefs = useRef<HTMLImageElement[]>([]);
-
   const getAverageColor = (image: HTMLImageElement): string => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -23,7 +20,7 @@ const Hero = ({ anime }: { anime: AnimeCardProps[] }) => {
       return "rgb(0, 0, 0)";
     }
 
-    canvas.width = image.width / 10; // ลดขนาดเพื่อประหยัดเวลา
+    canvas.width = image.width / 10;
     canvas.height = image.height / 10;
 
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
@@ -98,7 +95,6 @@ const Hero = ({ anime }: { anime: AnimeCardProps[] }) => {
                   crossOrigin="anonymous"
                   onLoad={() => handleImageLoad(index)}
                 />
-
               </div>
               <div className="absolute bottom-10 left-10 z-50 y-10">
                 <AnimeInfo anime={animeItem} />
