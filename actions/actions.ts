@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import { uploadFile } from "@/utils/supabase";
 import { revalidatePath } from "next/cache";
 import { profile } from "console";
+import { NextResponse } from "next/server";
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -61,34 +62,34 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
 
 
 
-// export const fetchProfileDetail = async (clerkId: string | undefined) => {
-//   try {
-//     // Validate the input
-//     if (!clerkId) {
-//       throw new Error("Invalid clerkId: clerkId is undefined or empty.");
-//     }
+export const fetchProfileDetail = async (clerkId: string | undefined) => {
+  try {
+    // Validate the input
+    if (!clerkId) {
+      throw new Error("Invalid clerkId: clerkId is undefined or empty.");
+    }
 
-//     // Query the profile with detailed information
-//     const profile = await db.profile.findUnique({
-//       where: {
-//         clerkId,
-//       },
-//       include: {
-//         user: true, // Assuming you have a relation to fetch user details
-//         reviews: true, // Assuming you have a relation to fetch user reviews
-//         favorites: true, // Assuming you have a relation to fetch user favorites
-//       },
-//     });
+    // Query the profile with detailed information
+    const profile = await db.profile.findUnique({
+      where: {
+        clerkId,
+      },
+      include: {
+        // user: true, // Assuming you have a relation to fetch user details
+        reviews: true, // Assuming you have a relation to fetch user reviews
+        favorites: true, // Assuming you have a relation to fetch user favorites
+      },
+    });
 
-//     if (!profile) {
-//       throw new Error("Profile not found for the given clerkId.");
-//     }
-
-//     return profile;
-//   } catch (error: any) {
-//     return renderError(error);
-//   }
-// };
+    if (!profile) {
+      throw new Error("Profile not found for the given clerkId.");
+    }
+    console.log("Profile:", profile);
+    return profile;
+  } catch (error: any) {
+    return renderError(error);
+  }
+};
 
 
 
@@ -255,7 +256,7 @@ export const fetchAnimeHero = async () => {
   try {
     const heroAnime = await db.anime.findMany({
       orderBy: {
-        score: "desc", // Order by the score in descending order
+        score: "desc",
       },
       take: 5,
     });
@@ -451,11 +452,12 @@ export const createReviewAction = async (prevState: any, formData: FormData) => 
 
       },
     });
-
+    
+    // console.log(anime?.id);
     await updateAnimeScore(rawData.animeId as string);
     await updateAnimeRanked();
     await updateAnimePopularity();
-    redirect(`/manga/`);
+    return redirect(`/manga/`);
   } catch (error) {
     console.error("Error creating review:", error);
     return renderError(error);
@@ -522,7 +524,7 @@ export const updateAnimeRanked = async () => {
       });
     }
 
-    console.log("Ranked updated for all animes.");
+    // console.log("Ranked updated for all animes.");
   } catch (error) {
     console.error("Error updating ranked:", error);
   }
@@ -542,7 +544,7 @@ export const updateAnimePopularity = async () => {
       });
     }
 
-    console.log("Popularity updated for all animes.");
+    // console.log("Popularity updated for all animes.");
   } catch (error) {
     console.error("Error updating popularity:", error);
   }

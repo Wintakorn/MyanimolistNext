@@ -11,7 +11,6 @@ const CreateReview = ({ animeId, animeName }: { animeId: string; animeName: stri
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
   };
-
   return (
     <FormContainer action={createReviewAction}>
       <div className="py-5">

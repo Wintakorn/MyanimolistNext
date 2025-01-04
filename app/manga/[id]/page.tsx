@@ -11,13 +11,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+
 const AnimeDetail = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   const anime = await fetchAnimeDetail({ id });
   if (!anime) redirect("/");
   const characters = await fetchCharactersByAnimeId(id);
   const reviews = await fetchReviews(id);
-
   return (
     <section>
       <Breadcrums name={anime.title} />
@@ -35,7 +35,6 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
           <AnimeInfo id={id} />
         </div>
         <div className="w-2/3 px-4 flex flex-col border">
-          
             <nav className="py-2 border-b ">
               <Link href={`/anime/`} className="hover:text-red-500">Anime</Link>
               <span className="mx-2">/</span>
@@ -45,7 +44,6 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
               <span className="mx-2">/</span>
               <Link href={`/anime/${id}/reviews`} className="hover:text-red-500">Community</Link>
             </nav>
-       
           <div className="flex items-center py-5 border-b">
             <div className="text-center">
               <p className="text-lg font-semibold">SCORE</p>
@@ -75,7 +73,7 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
                   <h2 className="font-semibold">Reviews</h2>
                   <p>ทั้งหมด {reviews.length} รายการ</p>
                 </div>
-                <Link href={""}>
+                <Link href={`/manga/review/?animeId=${id}`}>
                   <h3 className="font-semibold">View all</h3>
                 </Link>
               </div>

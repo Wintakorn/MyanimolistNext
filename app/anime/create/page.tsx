@@ -1,3 +1,5 @@
+'use client'
+
 import { createAnimeAction } from "@/actions/actions";
 import { SubmitButton } from "@/components/form/Buttons";
 import GenreInput from "@/components/form/GenreInput";
@@ -6,14 +8,14 @@ import FormInput from "@/components/form/FormInput";
 import ImageInput from "@/components/form/ImageInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import SelectInput from "@/components/form/SelectInput";
+import { producers, licensors, studios } from "@/utils/options";
 
-const CreateAnime = async () => {
+const CreateAnime =  () => {
   return (
     <section>
       <h1 className="text-2xl font-semibold mb-8 capitalize">Create Anime</h1>
       <div className="border p-8 rounded-md shadow-sm mb-5">
         <FormContainer action={createAnimeAction}>
-          {/* Anime Title and Genre */}
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <FormInput
               name="title"
@@ -29,16 +31,12 @@ const CreateAnime = async () => {
               required
             />
           </div>
-
-          {/* Synopsis */}
           <TextAreaInput
             name="synopsis"
             labelText="Description"
             placeholder="Write a description of the anime"
             required
           />
-
-          {/* Episodes, Status, and Premiere Info */}
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             <FormInput
               name="episodes"
@@ -55,8 +53,7 @@ const CreateAnime = async () => {
                 { value: "Completed", label: "Completed" },
                 { value: "Upcoming", label: "Upcoming" },
               ]}
-              placeholder="Select the anime's status"
-              required
+
             />
             <FormInput
               name="premiered"
@@ -66,8 +63,6 @@ const CreateAnime = async () => {
               required
             />
           </div>
-
-          {/* Airing, Broadcast, and Duration */}
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             <FormInput
               name="aired"
@@ -90,47 +85,41 @@ const CreateAnime = async () => {
               required
             />
           </div>
-
-          {/* Producers, Licensors, Studios */}
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             <SelectInput
               name="producers"
               label="Producers"
-              options={[
-                { value: "Aniplex", label: "Aniplex" },
-                { value: "Dentsu", label: "Dentsu" },
-                { value: "Shueisha Productions", label: "Shueisha Productions" },
-                { value: "Crunchyroll", label: "Crunchyroll" },
-              ]}
-              placeholder="Select Producers"
-              // isMulti // Allow multi-selection
+              options={producers.map((producer) => ({
+                value: producer.value,
+                label: producer.label,
+              }))}
+              // isMulti={true} // เปิดใช้งาน Multi-Select
+              // onChange={(value) => console.log("Selected Licensors:", value)}
               required
             />
             <SelectInput
               name="licensors"
               label="Licensors"
-              options={[
-                { value: "Crunchyroll", label: "Crunchyroll" },
-                { value: "Funimation", label: "Funimation" },
-              ]}
-              placeholder="Select Licensors"
-            // isMulti // Allow multi-selection
+              options={licensors.map((licensor) => ({
+                value: licensor.value,
+                label: licensor.label,
+              }))}
+              // isMulti={true} // เปิดใช้งาน Multi-Select
+              // onChange={(value) => console.log("Selected Licensors:", value)}
+              required
             />
             <SelectInput
               name="studios"
               label="Studios"
-              options={[
-                { value: "Madhouse", label: "Madhouse" },
-                { value: "Studio Pierrot", label: "Studio Pierrot" },
-                { value: "Toei Animation", label: "Toei Animation" },
-              ]}
-              placeholder="Select Studios"
-              // isMulti // Allow multi-selection
+              options={studios.map((studio) => ({
+                value: studio.value,
+                label: studio.label,
+              }))}
+              // isMulti
+              // onChange={(value) => console.log("Selected Licensors:", value)}
               required
             />
           </div>
-
-          {/* Source, Demographic, and Rating */}
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             <FormInput
               name="source"
@@ -154,13 +143,11 @@ const CreateAnime = async () => {
             />
           </div>
 
-          {/* Release Date and Image Upload */}
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <FormInput
               name="releaseDate"
               labelText="Release Date"
               type="date"
-              placeholder="Select the release date"
               required
             />
             <ImageInput name="image" label="Upload Anime Image" required />
@@ -174,7 +161,6 @@ const CreateAnime = async () => {
               required
             />
           </div>
-          {/* Submit Button */}
           <SubmitButton className="mt-8" text="Create Anime" size="lg" />
         </FormContainer>
       </div>
