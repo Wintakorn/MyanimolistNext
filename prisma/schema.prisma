@@ -97,12 +97,3 @@ model Favorite {
   anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
 }
 
-// model RelatedEntries {
-//   id          String   @id @default(uuid())
-//   title       String
-//   image       String
-//   animeId     String
-//   anime       Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
-
-//   relatedTo Anime[]
-// }

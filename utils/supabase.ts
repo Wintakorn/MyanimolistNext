@@ -9,7 +9,7 @@ const supabase = createClient(url, key);
 
 export async function uploadFile(image: File) {
   const timeStamp = Date.now();
-  const newName = `Roitai-${timeStamp}-${image.name}`;
+  const newName = `Wintakorn-${timeStamp}-${image.name}`;
 
   const { data, error } = await supabase.storage
     .from(bucket)

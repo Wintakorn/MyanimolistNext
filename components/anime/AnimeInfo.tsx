@@ -3,27 +3,16 @@ import React from 'react'
 import { redirect } from "next/navigation";
 import ShareButton from '../landmark/ShareButton';
 import FavoriteToggleButton from '../card/FavoriteToggleButton';
-import { Button } from '../ui/button';
+
 
 const AnimeInfo = async ({ id }: { id: string }) => {
     const anime = await fetchAnimeDetail({ id });
     if (!anime) redirect("/");
     return (
         <div className=" px-3">
-            <div className="flex items-center justify-center">
-               <button className='w-full my-2' style={{
-                 backgroundColor: '#414141',
-                 color: '#fff',
-                 border: 'none',
-                 cursor: 'pointer',
-                 fontSize: '18px',
-                 padding: '10px 20px',
-                 borderRadius: '5px',
-                 marginLeft: '15px',
-                 marginRight: '15px'
-               }}>
-                    Add favaorite anime
-               </button>    
+            <div className="">
+                <FavoriteToggleButton animeId={id} />
+                {/* <ShareButton animeId={id} name="Anime Name"/> */}
             </div>
             <div className="py-3">
                 <h1 className='text-lg border-b-2'>Information</h1>
@@ -40,14 +29,14 @@ const AnimeInfo = async ({ id }: { id: string }) => {
                 <h3>Demographic: {anime.demographic}</h3>
                 <h3>Duration: {anime.duration}</h3>
                 <h3>Rating: {anime.rating}</h3>
-                <h3>Favorite: {anime.favorite} users</h3>   
+                <h3>Favorite: {anime.favorite} users</h3>
             </div>
             <div className="py-3">
                 <h1 className='text-lg border-b-2'>Statistics</h1>
-                <h3>Score: {anime.score} (score by {anime.reviews.length} users)</h3>   
-                <h3>Ranked: #{anime.ranked}</h3>   
-                <h3>Popularity: #{anime.popularity}</h3>   
-                <h3>Favorite: {anime.favorite} users</h3>   
+                <h3>Score: {anime.score} (score by {anime.reviews.length} users)</h3>
+                <h3>Ranked: #{anime.ranked}</h3>
+                <h3>Popularity: #{anime.popularity}</h3>
+                <h3>Favorite: {anime.favorite} users</h3>
             </div>
         </div>
     )

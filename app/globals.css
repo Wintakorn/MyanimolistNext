@@ -5,18 +5,13 @@
 @layer components {
   .container {
     @apply mx-auto;
-    /* @apply w-full; */
   }
-}
-/* @layer components {
-  .sidebar {
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .sidebar-item:hover {
-    @apply bg-[hsl(var(--sidebar-accent))] text-[hsl(var(--sidebar-accent-foreground))];
-  }
-} */
 
+  /* .no-auto {
+    margin-left: 0;
+    margin-right: 0;
+  } */
+}
 
 
 @layer base {
@@ -120,6 +115,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

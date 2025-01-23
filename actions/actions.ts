@@ -62,35 +62,6 @@ export const createProfileAction = async (prevState: any, formData: FormData) =>
 
 
 
-export const fetchProfileDetail = async (clerkId: string | undefined) => {
-  try {
-    // Validate the input
-    if (!clerkId) {
-      throw new Error("Invalid clerkId: clerkId is undefined or empty.");
-    }
-
-    // Query the profile with detailed information
-    const profile = await db.profile.findUnique({
-      where: {
-        clerkId,
-      },
-      include: {
-        // user: true, // Assuming you have a relation to fetch user details
-        reviews: true, // Assuming you have a relation to fetch user reviews
-        favorites: true, // Assuming you have a relation to fetch user favorites
-      },
-    });
-
-    if (!profile) {
-      throw new Error("Profile not found for the given clerkId.");
-    }
-    console.log("Profile:", profile);
-    return profile;
-  } catch (error: any) {
-    return renderError(error);
-  }
-};
-
 
 
 
@@ -119,8 +90,6 @@ export const createAnimeAction = async (prevState: any, formData: FormData) => {
       : [];
 
     const validatedFile = validateWithZod(imageSchema, { image: file });
-
-
     const validateField = validateWithZod(animeSchema, {
       ...rawData,
       genre,
@@ -150,6 +119,37 @@ export const createAnimeAction = async (prevState: any, formData: FormData) => {
 
 
 export const fetchAnime = async ({ search, genre }: { search?: string; genre?: string }) => {
+  try {
+
+    const where: any = {};
+
+    if (genre) {
+      where.genre = {
+        has: genre,
+      };
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { synopsis: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const anime = await db.anime.findMany({
+      where,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return anime;
+  } catch (error) {
+    console.error("Error fetching anime:", error);
+    throw error;
+  }
+};
+export const fetchAnimeRank = async ({ search, genre }: { search?: string; genre?: string }) => {
   try {
 
     const where: any = {};
@@ -272,8 +272,6 @@ export const fetchAnimeHero = async () => {
 
 export const fetchFavoriteId = async ({ animeId }: { animeId: string }) => {
   const user = await getAuthUser();
-  // console.log("User ID:", user.id);
-
   const profile = await db.profile.findUnique({
     where: { clerkId: user.id },
   });
@@ -452,8 +450,7 @@ export const createReviewAction = async (prevState: any, formData: FormData) => 
 
       },
     });
-    
-    // console.log(anime?.id);
+  
     await updateAnimeScore(rawData.animeId as string);
     await updateAnimeRanked();
     await updateAnimePopularity();
@@ -549,3 +546,5 @@ export const updateAnimePopularity = async () => {
     console.error("Error updating popularity:", error);
   }
 };
+
+

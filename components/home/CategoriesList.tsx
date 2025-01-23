@@ -1,29 +1,29 @@
-// rafce
 import { categories } from "@/utils/categories";
 import Link from "next/link";
 const CategoriesList = ({
   search,
-  category,
+  genre,
 }: {
   search?: string;
-  category?: string;
+  genre?: string;
 }) => {
   const searchTerm = search ? `&search=${search}` : "";
 
   return (
     <div>
-      <div className="flex justify-center my-4 font-bold gap-x-4 ">
+      <div className="flex my-4 font-bold gap-x-4">
         {categories.map((item) => {
-            const isActive = item.label === category
+          const isActive = item.label === genre; 
           return (
             <Link
-              href={`/?category=${item.label}${searchTerm}`}
+              href={`/?genre=${item.label}${searchTerm}`}
               key={item.label}
             >
-              <article className={`p-3 flex flex-col 
-              justify-center hover:text-primary hover:scale-110
-              hover:duration-300
-              items-center ${isActive ? 'text-primary' : ''}`}>
+              <article
+                className={`p-3 flex flex-col justify-center hover:text-primary hover:scale-110 hover:duration-300 items-center ${
+                  isActive ? "text-primary" : ""
+                }`}
+              >
                 <item.icon />
                 <p>{item.label}</p>
               </article>
@@ -34,4 +34,5 @@ const CategoriesList = ({
     </div>
   );
 };
+
 export default CategoriesList;

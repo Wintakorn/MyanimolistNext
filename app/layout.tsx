@@ -6,8 +6,8 @@ import Providers from "./Providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Mali } from "next/font/google";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import { auth } from "@clerk/nextjs/server";
+import AppSidebarData from "@/components/sidebar/app-sidebar";
+
 const mali = Mali({
   weight: "400",
   subsets: ["latin", "thai"],
@@ -34,8 +34,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { userId } = await auth(); 
-  const clerkId = userId ?? "";
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -44,8 +42,10 @@ export default async function RootLayout({
         >
           <SidebarProvider>
             <Providers>
-              <AppSidebar clerkId={clerkId}/>
-              <main className="container">
+              <AppSidebarData/>
+              <main className="container" style={{
+                // 
+              }}>
                 <Navbar />
                 {children}
               </main>

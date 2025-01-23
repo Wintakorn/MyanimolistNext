@@ -7,23 +7,19 @@ import { redirect } from "next/navigation";
 
 const CreateProfile = async () => {
   const user = await currentUser();
-
-  // Redirect if the user already has a profile
   if (user?.privateMetadata.hasProfile) redirect("/");
 
   return (
     <section>
       <h1 className="text-2xl font-semibold mb-8 capitalize">Create Profile</h1>
       <div className="border p-8 rounded-md shadow-md">
-        {/* Form for creating a profile */}
         <FormContainer action={createProfileAction}>
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <FormInput
               name="firstName"
-              labelText="First Name"
+              labelText="First Name"  
               type="text"
               placeholder="Enter your first name"
-
             />
             <FormInput
               name="lastName"

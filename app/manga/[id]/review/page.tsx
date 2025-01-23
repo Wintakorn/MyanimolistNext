@@ -7,13 +7,14 @@ import ImageContainer from "@/components/anime/ImageContainer";
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
 import Character from "@/components/Characters/character";
 import Footer from "@/components/footer/footer";
+import ShareButton from "@/components/landmark/ShareButton";
 import CreateReview from "@/components/reviews/CreateReview";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import ShareButton from '../../../components/landmark/ShareButton';
 
-const AnimeDetail = async ({ params }: { params: { id: string } }) => {
+
+const page = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   const anime = await fetchAnimeDetail({ id });
   if (!anime) redirect("/");
@@ -48,41 +49,11 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
             <span className="mx-2">/</span>
             <Link href={`/anime/${id}/reviews`} className="hover:text-red-500">Community</Link>
           </nav>
-          <div className="flex items-center py-5 border-b">
-            <div className="text-center">
-              <p className="text-lg font-semibold">SCORE</p>
-              <h1 className="text-lg font-semibold">{anime.score}</h1>
-              <p>{anime.reviews.length} users</p>
-            </div>
-            <p className="text-lg font-semibold ml-10">
-              Ranked: #{anime.ranked || "N/A"}
-            </p>
-            <p className="text-lg font-semibold ml-10">
-              Popularity: #{anime.popularity || "N/A"}
-            </p>
-            <p className="text-lg font-semibold ml-10">
-              Favorite: {anime.favorite || "N/A"}
-            </p>
-          </div>
-          <div className="py-10">
-            <Description description={anime.synopsis || "No synopsis available."} />
-            <div className="mt-3 border-b mb-3">
-              <span className="text-lg text-blue-600">{anime.genre?.join(", ") || "N/A"}</span>
-            </div>
-            <AnimeContent id={id} />
-            <Character id={id} />
-            <div className="mt-10 mb-10">
-              <div className="flex justify-between items-center border-b py-1">
-                <div className="text-2xl flex gap-3 items-center">
-                  <h2 className="font-semibold">Reviews</h2>
-                  <p>ทั้งหมด {reviews.length} รายการ</p>
-                </div>
-                <Link href={`/manga/${id}/review/`}>
-                  <h3 className="font-semibold">View all</h3>
-                </Link>
-              </div>
+         
+          <div className="">
+            <div className="">
               {reviews.length > 0 ? (
-                reviews.slice(0, 3).map((review) => (
+                reviews.map((review) => (
                   <div key={review.id} className="border-gray-500 border-b py-3 border-gray-300">
                     <div className="flex items-center mb-2">
                       <img
@@ -104,7 +75,6 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
               ) : (
                 <p className="text-red-500 mt-3 text-center">No reviews yet. Be the first to leave a review!</p>
               )}
-              <CreateReview animeName={anime.title} animeId={id} />
             </div>
           </div>
         </div>
@@ -113,5 +83,5 @@ const AnimeDetail = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default AnimeDetail;
+export default page;
 

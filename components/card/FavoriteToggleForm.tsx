@@ -17,7 +17,6 @@
             animeId,
             pathname,
         });
-
         return (
             <>
                 <FormContainer action={toggleAction}>

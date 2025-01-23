@@ -3,19 +3,17 @@ import { AnimeCardProps } from "@/utils/types";
 import Link from "next/link";
 import FavoriteToggleButton from "./FavoriteToggleButton";
 import { fetchAnimeDetail } from "@/actions/actions";
+import FavoriteHerotoggleBtn from "./FavoriteHeroBtn";
 
-const AnimeCard = async({ anime }: { anime: AnimeCardProps }) => {
-  const { id } = await anime;
-  const animedetail = await fetchAnimeDetail({ id });
-  // console.log("Anime Details:", animedetail);
+const AnimeCard = ({ anime }: { anime: AnimeCardProps }) => {
+  const { id } = anime;
+  // const animedetail = fetchAnimeDetail({ id });
   return (
     <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition relative">
       {/* Favorite Button */}
       <div className="absolute top-2 right-2 z-10">
-        <FavoriteToggleButton animeId={id} />
+        <FavoriteHerotoggleBtn animeId={id} />
       </div>
-
-      {/* Anime Card Content */}
       <Link href={`/manga/${id}`}>
         <img
           src={anime.image}
@@ -32,7 +30,6 @@ const AnimeCard = async({ anime }: { anime: AnimeCardProps }) => {
           <span>{anime.genre.join(", ")}</span>
           <div className="flex justify-between">
             <div>{anime.episodes} Episodes</div>
-            <div className="">Favorite: {animedetail.favorite}</div>
           </div>
         </div>
 

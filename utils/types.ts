@@ -15,7 +15,8 @@ export type AnimeCardProps = {
   episodes: number;
   status: "Airing" | "Completed" | "Upcoming";
   releaseDate: string; 
-  raked: string
+  ranked: string;
+  premiered: string;
 };
 
 

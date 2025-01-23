@@ -6,44 +6,40 @@ import {
   Gamepad2,
   Globe,
   Users,
+  Heart,   
+  Star,   
+  Map,      
+  Laugh,  
+  Newspaper 
 } from "lucide-react";
 
 export const categories = [
   {
     label: "Action",
-    icon: Tv,
+    icon: Tv, 
   },
   {
-    label: "Movies",
-    icon: Film,
+    label: "Comedy",
+    icon: Laugh,
   },
   {
-    label: "Manga",
-    icon: Book,
+    label: "Romance",
+    icon: Heart, 
   },
   {
-    label: "Music",
-    icon: Music,
+    label: "Fantasy",
+    icon: Star, 
   },
   {
-    label: "Games",
-    icon: Gamepad2,
+    label: "Adventure",
+    icon: Map,  
   },
   {
-    label: "Cosplay",
-    icon: Users,
+    label: "Drama",
+    icon: Users, 
   },
   {
     label: "News",
-    icon: Globe,
+    icon: Newspaper, 
   },
 ];
-
-// "Action",
-// "Adventure",
-// "Comedy",
-// "Drama",
-// "Fantasy",
-// "Romance",
-// "Horror",
-// "Sci-Fi",

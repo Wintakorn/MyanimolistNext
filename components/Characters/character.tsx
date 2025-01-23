@@ -17,16 +17,16 @@ const Character = async ({ id }: { id: string }) => {
             <h2 className="font-semibold">Characters & Voice Actors</h2>
           </div>
           <div className="">
-            <Link href={`/manga/create/?animeId=${id}`} className="hover:underline text-blue-500">
-              Add Character
-            </Link>
+            {/* <Link href={`/manga/${id}/characters`} className="hover:underline text-blue-500">
+              View all Characters
+            </Link> */} 
           </div>
         </div>
         {characters.length > 0 ? (
-          <Link href={'/'}>
-            <div className="grid grid-cols-1 md:grid-cols-6 mb-5">
-              {characters.map((character) => (
-                <div key={character.id} className="shadow-md w-100 h-auto mx-1">
+          <div className="grid grid-cols-1 md:grid-cols-6 mb-5">
+            {characters.map((character) => (
+              <Link href={'/'}>
+                <div key={character.id} className="shadow-md w-100 h-auto mx-1 hover:text-red-500">
                   <img
                     src={character.image}
                     alt={character.name}
@@ -37,9 +37,9 @@ const Character = async ({ id }: { id: string }) => {
                     <p className="text-sm">{character.role}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </Link>
+              </Link>
+            ))}
+          </div>  
         ) : (
           <p className="text-gray-500 mb-10">No characters added yet.</p>
         )}
